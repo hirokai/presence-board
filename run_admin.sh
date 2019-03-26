@@ -1,0 +1,1 @@
+elm-live src/Admin.elm -s admin.html --open -- --output=js-elm/admin.elm.min.js

@@ -1,0 +1,5 @@
+.DS_Store
+firebase_config.js
+hosting-firebase/.firebaserc
+elm-stuff
+/js-elm
