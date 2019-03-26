@@ -1,5 +1,6 @@
 .DS_Store
 firebase_config.js
 hosting-firebase/.firebaserc
+hosting-firebase/public
 elm-stuff
 /js-elm
