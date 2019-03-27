@@ -7,6 +7,15 @@ MITライセンス。
 
 **現状，Firebaseの任意の読み書き権限を必要とし，Firebaseへの接続のための情報がクライアントから見えるため，URLを一般公開しない社内用途にのみ使用してください。**
 
+## ビルド方法
+
+```
+npm install
+build.sh
+```
+
+必要なすべてのファイルは `hosting-firebase/public/`とサブフォルダにコピーされる。
+
 ## 使用方法
 1. 任意の読み書きを許可したFirebaseのRealtime Databaseを用意する。
 2. `js/filebase_config.js`を以下の内容で作成（https://firebase.google.com/docs/database/web/start）。
@@ -30,11 +39,6 @@ var firebaseConfig = {
 * フロントエンド： Elm 0.19で書かれたSingle-page App。
   * クライアントからバックエンド（Firebaseのデータベース）に直接アクセスする。
   * 自前のサーバー，ローカルなど，どこに置いても良い。
-
-## ビルド方法
-
-`build.sh`を実行.
-必要なすべてのファイルは `hosting-firebase/public/`とサブフォルダにコピーされる。
 
 ## 開発・デバッグ
 

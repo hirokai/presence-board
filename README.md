@@ -4,7 +4,16 @@ Shows presence in the office. Written in Elm.
 
 MIT license.
 
-## Setup
+## Build
+
+```
+npm install
+build.sh
+```
+
+All files are copied in `hosting-firebase/public/` and subfolders.
+
+## Install
 
 * Back end: A Firebase account with full read/write permission.
   * https://github.com/firebase/quickstart-js/issues/239#issuecomment-421781605 
@@ -25,12 +34,6 @@ var firebaseConfig = {
 	messagingSenderId: "ZZZZZZ"
 };
 ```
-
-## How to build
-
-Run `build.sh`.
-All files are copied in `hosting-firebase/public/` and subfolders.
-
 
 ## How to debug
 

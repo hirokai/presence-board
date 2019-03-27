@@ -1,0 +1,28 @@
+{
+  "name": "seating-elm",
+  "version": "1.0.0",
+  "description": "在席をオンラインで更新できるボードです。Elm 0.19で書かれています。 Firebaseのデータベースにブラウザ内のJavaScriptから直接読み書きして動作します。",
+  "main": "index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hirokai/presence-board.git"
+  },
+  "author": "Hiro Kai",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hirokai/presence-board/issues"
+  },
+  "homepage": "https://github.com/hirokai/presence-board#readme",
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2",
+    "babel-preset-minify": "^0.5.0"
+  }
+}

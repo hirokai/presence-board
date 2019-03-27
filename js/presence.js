@@ -1,7 +1,6 @@
 firebase.initializeApp(firebaseConfig);
 var database = firebase.database();
 
-
 const lsKey = 'seating_v2.0.0_members_and_places';
 const s = localStorage.getItem(lsKey);
 

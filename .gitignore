@@ -4,3 +4,4 @@ hosting-firebase/.firebaserc
 hosting-firebase/public
 elm-stuff
 /js-elm
+node_modules
