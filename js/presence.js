@@ -8,37 +8,40 @@ var places = undefined;
 var app;
 var globalCache = null;
 
-if(s){
-	const {members,places} = JSON.parse(s);
-	console.log('Init with local data',members, places);
-	app = Elm.Main.init({flags: {members, places}});
+if (s) {
+	const { members, places } = JSON.parse(s);
+	console.log('Init with local data', members, places);
+	app = Elm.Main.init({ flags: { members, places } });
+	app.ports.updateBackend.subscribe(updateBackendCallback);
 	database.ref('/').once('value', (d) => {
 		const obj = d.val();
-		console.log('Update from server',obj);
+		console.log('Update from server', obj);
 		localStorage.setItem(lsKey, JSON.stringify(obj));
 		// const places = obj.places;
 		feedDataToView(obj.members);
-	});	
-}else{
+	});
+} else {
 	database.ref('/').once('value', (d) => {
 		const obj = d.val();
-		console.log('Init with server data',obj);
+		console.log('Init with server data', obj);
 		globalCache = obj.members;
 		localStorage.setItem(lsKey, JSON.stringify(obj));
 		const places = obj.places;
-		const members = obj.places;
-		app = Elm.Main.init({flags: {members,places}});	
+		const members = obj.members;
+		app = Elm.Main.init({ flags: { members, places } });
+		console.log(app);
+		app.ports.updateBackend.subscribe(updateBackendCallback);
 	});
 }
 
-app.ports.updateBackend.subscribe(function (data) {
+function updateBackendCallback(data) {
 	const { name, place, order } = data;
-	if(name){
+	if (name) {
 		const last_updated = new Date().getTime();
 		const new_data = { place, order, name, last_updated };
 		database.ref('members/' + order).set(new_data);
 	}
-});
+}
 
 function feedDataToView(members) {
 	_.map(members, (m) => {
@@ -50,8 +53,8 @@ function feedDataToView(members) {
 
 function checkIdle(obj) {
 	return;
-	_.map(obj,(value,name) => {
-		if(new Date().getTime() - value.last_updated >= 1000*60*60*6){
+	_.map(obj, (value, name) => {
+		if (new Date().getTime() - value.last_updated >= 1000 * 60 * 60 * 6) {
 			const obj2 = {};
 			value.place = '不明';
 			obj2[name] = value;
@@ -62,9 +65,9 @@ function checkIdle(obj) {
 
 window.setInterval(() => {
 	checkIdle(globalCache);
-},10000);
+}, 10000);
 
-database.ref('members').on('child_changed',(d) => {
+database.ref('members').on('child_changed', (d) => {
 	const obj = d.val();
 	const obj_local = JSON.parse(localStorage.getItem(lsKey));
 	obj_local.members[obj.order] = obj;
@@ -72,7 +75,7 @@ database.ref('members').on('child_changed',(d) => {
 	feedDataToView(obj_local.members);
 });
 
-database.ref('members').on('child_added',(d) => {
+database.ref('members').on('child_added', (d) => {
 	const obj = d.val();
 	const obj_local = JSON.parse(localStorage.getItem(lsKey));
 	obj_local.members[obj.order] = obj;
@@ -80,9 +83,9 @@ database.ref('members').on('child_added',(d) => {
 	feedDataToView(obj_local.members);
 });
 
-database.ref('members').on('child_removed',(d) => {
+database.ref('members').on('child_removed', (d) => {
 	const obj = d.val();
-	console.log('child_removed',obj);
+	console.log('child_removed', obj);
 	const obj_local = JSON.parse(localStorage.getItem(lsKey));
 	obj_local.members[obj.order] = obj;
 	localStorage.setItem(lsKey, JSON.stringify(obj_local));
