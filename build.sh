@@ -4,7 +4,7 @@ mkdir -p hosting-firebase/public/
 
 # Compile js
 npx babel js/presence.js --out-file js/presence.min.js
-npx babel js/presence.js --out-file js/presence.min.js
+npx babel js/admin.js --out-file js/admin.min.js
 
 # Compile and minify Presence.elm
 npx elm make --optimize src/Presence.elm --output=js-elm/presence.elm.js

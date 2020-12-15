@@ -1,4 +1,4 @@
-port module Main exposing (Member, Model, Msg(..), Place, feedMembers, init, main, subscriptions, update, sendChange, updateMember, updateMemberData, updatePlace, view)
+port module Admin exposing (Member, Model, Msg(..), Place, feedMembers, init, main, subscriptions, update, sendChange, updateMember, updateMemberData, updatePlace, view)
 
 import Bootstrap.Button as Button
 import Bootstrap.CDN as CDN
