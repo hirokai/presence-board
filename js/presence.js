@@ -9,7 +9,10 @@ var app;
 var globalCache = null;
 
 if (s) {
-  const { members, places } = JSON.parse(s);
+  const { members, places: places0 } = JSON.parse(s);
+  const places = places0.map((p) => {
+    return { ...p, span: p.span || 1 };
+  });
   console.log("Init with local data", members, places);
   app = Elm.Presence.init({ flags: { members, places } });
   app.ports.updateBackend.subscribe(updateBackendCallback);
@@ -19,6 +22,7 @@ if (s) {
     localStorage.setItem(lsKey, JSON.stringify(obj));
     // const places = obj.places;
     feedDataToView(obj.members);
+    feedPlacesToView(obj.places);
   });
 } else {
   database.ref("/").once("value", (d) => {
@@ -26,7 +30,9 @@ if (s) {
     console.log("Init with server data", obj);
     globalCache = obj.members;
     localStorage.setItem(lsKey, JSON.stringify(obj));
-    const places = obj.places;
+    const places = obj.places.map((p) => {
+      return { ...p, span: p.span || 1 };
+    });
     const members = obj.members;
     app = Elm.Presence.init({ flags: { members, places } });
     console.log(app);
@@ -35,11 +41,14 @@ if (s) {
 }
 
 function updateBackendCallback(data) {
-  const { name, place, order } = data;
+  const { name, place, order } = data.member;
   if (name) {
     const last_updated = new Date().getTime();
     const new_data = { place, order, name, last_updated };
     database.ref("members/" + order).set(new_data);
+    if (!data.noLog) {
+      database.ref("logs/").push({ place, name, timestamp: last_updated });
+    }
   }
 }
 
@@ -47,6 +56,12 @@ function feedDataToView(members) {
   _.map(members, (m) => {
     // console.log('updateMember',m);
     app.ports.updateMember.send(m);
+  });
+}
+
+function feedPlacesToView(places) {
+  _.map(places, (p) => {
+    app.ports.updatePlace.send({ ...p, span: p.span || 1 });
   });
 }
 
