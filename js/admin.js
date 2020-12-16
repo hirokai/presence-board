@@ -8,15 +8,15 @@ database.ref("/").once("value", (d) => {
   });
   const members_all = obj.members;
   const members = _.orderBy(members_all, "order");
-  const logs = _.map(_.orderBy(obj.logs, "timestamp", "desc"), (l) => {
-    return {
-      timestamp: l.timestamp,
-      time: new Date(l.timestamp).toString(),
-      name: l.name,
-      place: l.place,
-    };
-  });
-  const flags = { members, places, logs };
+  // const logs = _.map(_.orderBy(obj.logs, "timestamp", "desc"), (l) => {
+  //   return {
+  //     timestamp: l.timestamp,
+  //     time: new Date(l.timestamp).toString(),
+  //     name: l.name,
+  //     place: l.place,
+  //   };
+  // });
+  const flags = { members, places, logs: [] };
   console.log(flags);
   const app = Elm.Admin.init({ flags });
 
