@@ -35,6 +35,14 @@ var firebaseConfig = {
 };
 ```
 
+## Deploy to Firebase Hosting
+```
+cd hosting-firebase
+firebase login
+firebase deploy
+```
+
+
 ## How to debug
 
 Install `elm-live`

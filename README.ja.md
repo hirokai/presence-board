@@ -32,6 +32,13 @@ var firebaseConfig = {
 3. HTML/JSファイルをサーバーに置く場合，`hosting-firebase/public/`内のファイル一式（サブフォルダ含む）を静的ホスティングする。
 4. `presence.html`をブラウザで開けば主画面（在席表）が開き，`admin.html`を開けば管理画面が開く。
 
+## Firebase Hostingへのデプロイ（アップロード）
+```
+cd hosting-firebase
+firebase login
+firebase deploy
+```
+
 ## アーキテクチャ
 
 * バックエンド： FirebaseのRealtime Database. 
