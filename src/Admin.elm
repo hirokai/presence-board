@@ -18,8 +18,14 @@ import Json.Encode
 import List.Extra exposing (find)
 
 
+
 type alias Member =
-    { name : String, place : String, order : Float }
+    { name : String, place : String, order : Float, last_updated : Int }
+
+
+type alias Place =
+    { name : String, color : String, order : Int, span : Int }
+
 
 
 port sendChangeMembers : String -> Cmd msg
@@ -93,10 +99,6 @@ type Msg
     | DownloadLogs
     | ClearLogs
     | ReceiveLog LogEntry
-
-
-type alias Place =
-    { name : String, color : String, span : Int }
 
 
 updatePlace n p model =

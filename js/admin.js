@@ -3,10 +3,24 @@ var database = firebase.database();
 
 database.ref("/").once("value", (d) => {
   const obj = d.val();
-  const places = obj.places.map((p) => {
-    return { ...p, span: p.span || 1 };
-  });
-  const members_all = obj.members;
+  const places = obj.places
+    .filter((p) => p)
+    .map((p) => {
+      return {
+        ...p,
+        span: p.span || 1,
+        order: p.order == undefined ? 100 : p.order,
+      };
+    });
+  const members_all = obj.members
+    .filter((p) => p)
+    .map((p) => {
+      return {
+        ...p,
+        last_updated: p.last_updated || -1,
+      };
+    });
+
   const members = _.orderBy(members_all, "order");
   // const logs = _.map(_.orderBy(obj.logs, "timestamp", "desc"), (l) => {
   //   return {

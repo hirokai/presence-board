@@ -1,11 +1,5 @@
 port module Presence exposing (..)
 
--- [2-1] Navbar(1)
--- [2-2] Grid(1)
--- [2-2] Grid(2)
--- [2-3] Card(1)
--- [2-3] Card(2)
-
 import Bootstrap.Button as Button
 import Bootstrap.CDN as CDN
 import Bootstrap.Card as Card
@@ -24,7 +18,11 @@ import List.Extra exposing (find)
 
 
 type alias Member =
-    { name : String, place : String, order : Float }
+    { name : String, place : String, order : Float, last_updated : Int }
+
+
+type alias Place =
+    { name : String, color : String, order : Int, span : Int }
 
 
 port updateBackend : { member : Member, noLog : Bool } -> Cmd msg
@@ -91,11 +89,6 @@ type Msg
     | FeedMembers (List Member)
     | CheckNoLog Bool
     | NoOp
-
-
-type alias Place =
-    { name : String, color : String, span : Int }
-
 
 getMember : String -> Model -> Maybe Member
 getMember name model =
@@ -241,7 +234,7 @@ update msg model =
             ( { model | places = updatePlaceData model.places p }, Cmd.none )
 
         FeedMembers ms ->
-            ( { model | members = List.map (\m -> { name = m.name, place = m.place, order = m.order }) ms }, Cmd.none )
+            ( { model | members = List.map (\m -> { name = m.name, place = m.place, order = m.order, last_updated = m.last_updated }) ms }, Cmd.none )
 
         CheckNoLog b ->
             ( { model | checkNoLog = b }, Cmd.none )

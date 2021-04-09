@@ -9,11 +9,24 @@ var app;
 var globalCache = null;
 
 if (s) {
-  const { members, places: places0 } = JSON.parse(s);
+  const { members: members0, places: places0 } = JSON.parse(s);
   const places = places0.map((p) => {
-    return { ...p, span: p.span || 1 };
+    return {
+      ...p,
+      span: p.span || 1,
+      order: p.order == undefined ? 100 : p.order,
+    };
   });
-  console.log("Init with local data", members, places);
+  console.log({ members0 });
+  const members = members0
+    .filter((p) => p)
+    .map((p) => {
+      return {
+        ...p,
+        last_updated: p.last_updated || -1,
+      };
+    });
+  console.log("Init with local data", { members, places });
   app = Elm.Presence.init({ flags: { members, places } });
   app.ports.updateBackend.subscribe(updateBackendCallback);
   database.ref("/").once("value", (d) => {
@@ -83,7 +96,7 @@ window.setInterval(() => {
 
 database.ref("members").on("child_changed", (d) => {
   const obj = d.val();
-  const obj_local = JSON.parse(localStorage.getItem(lsKey));
+  const obj_local = JSON.parse(localStorage.getItem(lsKey)) || { members: {} };
   obj_local.members[obj.order] = obj;
   localStorage.setItem(lsKey, JSON.stringify(obj_local));
   feedDataToView(obj_local.members);
@@ -91,7 +104,7 @@ database.ref("members").on("child_changed", (d) => {
 
 database.ref("members").on("child_added", (d) => {
   const obj = d.val();
-  const obj_local = JSON.parse(localStorage.getItem(lsKey));
+  const obj_local = JSON.parse(localStorage.getItem(lsKey)) || { members: {} };
   obj_local.members[obj.order] = obj;
   localStorage.setItem(lsKey, JSON.stringify(obj_local));
   feedDataToView(obj_local.members);
@@ -100,7 +113,7 @@ database.ref("members").on("child_added", (d) => {
 database.ref("members").on("child_removed", (d) => {
   const obj = d.val();
   console.log("child_removed", obj);
-  const obj_local = JSON.parse(localStorage.getItem(lsKey));
+  const obj_local = JSON.parse(localStorage.getItem(lsKey)) || { members: {} };
   obj_local.members[obj.order] = obj;
   localStorage.setItem(lsKey, JSON.stringify(obj_local));
   feedDataToView(obj_local.members);

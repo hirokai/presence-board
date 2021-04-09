@@ -7,7 +7,7 @@ node node_modules/@babel/cli/bin/babel.js js/presence.js --out-file js/presence.
 node node_modules/@babel/cli/bin/babel.js js/admin.js --out-file js/admin.min.js
 
 # Compile and minify Presence.elm
-elm make --optimize src/Presence.elm --output=js-elm/presence.elm.js
+npx elm make --optimize src/Presence.elm --output=js-elm/presence.elm.js
 node node_modules/google-closure-compiler/index.js --js=js-elm/presence.elm.js --js_output_file=js-elm/presence.elm.min.js
 
 # Compile and minify Admin.elm
