@@ -35,7 +35,7 @@ database.ref("/").once("value", (d) => {
   const app = Elm.Admin.init({ flags });
 
   app.ports.sendChangeMembers.subscribe((d) => {
-    const names = _.filter(d.split("\n"), (s) => s.trim() != "");
+    const names = _.uniq(_.filter(d.split("\n"), (s) => s.trim() != ""));
     database.ref("members").remove();
     _.map(names, (name, order) => {
       const m = _.find(members, (m) => {
